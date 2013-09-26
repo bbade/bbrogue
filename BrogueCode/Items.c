@@ -26,6 +26,8 @@
 #include "IncludeGlobals.h"
 #include <math.h>
 
+void detectMagicOnItem(item *theItem);
+
 // Allocates space, generates a specified item (or random category/kind if -1)
 // and returns a pointer to that item. The item is not given a location here
 // and is not inserted into the item chain!
@@ -729,6 +731,10 @@ void pickUpItemAt(short x, short y) {
 			deleteItem(theItem);
 			return;
 		}
+    
+    if (theItem->category & POTION) {
+      detectMagicOnItem(theItem);
+    }
 		
 		theItem = addItemToPack(theItem);
 		

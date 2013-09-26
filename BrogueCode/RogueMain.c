@@ -435,7 +435,11 @@ void initializeRogue(unsigned long seed) {
 	theItem = addItemToPack(theItem);
 	equipItem(theItem, false);
     player.status[STATUS_DONNING] = 0;
-	
+  
+  theItem = generateItem(SCROLL, SCROLL_IDENTIFY);
+  identify(theItem);
+  theItem = addItemToPack(theItem);
+
 	DEBUG {
 		theItem = generateItem(RING, RING_CLAIRVOYANCE);
 		theItem->enchant1 = max(DROWS, DCOLS);
