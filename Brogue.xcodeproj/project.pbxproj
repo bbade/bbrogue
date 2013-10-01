@@ -30,6 +30,7 @@
 		69C7414A1775466100CD2D5F /* Time.c in Sources */ = {isa = PBXBuildFile; fileRef = 69C741491775466100CD2D5F /* Time.c */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		DB52AD0017F92673001EE96F /* BBMod.c in Sources */ = {isa = PBXBuildFile; fileRef = DB52ACFF17F92673001EE96F /* BBMod.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -66,6 +67,8 @@
 		69C741491775466100CD2D5F /* Time.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = Time.c; path = BrogueCode/Time.c; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Brogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Brogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		DB52ACFF17F92673001EE96F /* BBMod.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = BBMod.c; sourceTree = "<group>"; };
+		DB52AD0117F9267D001EE96F /* BBMod.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BBMod.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -134,6 +137,7 @@
 		29B97315FDCFA39411CA2CEA /* Brogue Code */ = {
 			isa = PBXGroup;
 			children = (
+				DB52ACFE17F9265B001EE96F /* bbmod */,
 				5852BB49118650A10064384E /* Rogue.h */,
 				5852BB42118650A10064384E /* Globals.c */,
 				5852BB43118650A10064384E /* IncludeGlobals.h */,
@@ -174,6 +178,15 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		DB52ACFE17F9265B001EE96F /* bbmod */ = {
+			isa = PBXGroup;
+			children = (
+				DB52ACFF17F92673001EE96F /* BBMod.c */,
+				DB52AD0117F9267D001EE96F /* BBMod.h */,
+			);
+			name = bbmod;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -261,6 +274,7 @@
 				696F73E814C27D9F00CF8C90 /* MainMenu.c in Sources */,
 				694753061672E75D003BE7CB /* Grid.c in Sources */,
 				69C7414A1775466100CD2D5F /* Time.c in Sources */,
+				DB52AD0017F92673001EE96F /* BBMod.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

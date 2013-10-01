@@ -422,13 +422,11 @@ boolean dialogChooseFile(char *path, const char *suffix, const char *prompt) {
 	// i is the entry we're testing, and j is the entry that we move it to if it qualifies.
 	for (i=0, j=0; i<count; i++) {
 		pathLength = strlen(files[i].path);
-		//printf("\nString 1: %s", &(files[i].path[(max(0, pathLength - suffixLength))]));
 		if (stringsExactlyMatch(&(files[i].path[(max(0, pathLength - suffixLength))]), suffix)) {
 			
 			// This file counts!
 			if (i > j) {
 				files[j] = files[i];
-				//printf("\nMatching file: %s\twith date: %s", files[j].path, files[j].date);
 			}
 			j++;
 			
@@ -521,11 +519,6 @@ boolean dialogChooseFile(char *path, const char *suffix, const char *prompt) {
 			rectangularShading(x - 1, y - 1, width + 1, height + 1, dialogColor, INTERFACE_OPACITY, dbuf);
 			overlayDisplayBuffer(dbuf, NULL);
 			
-//			for (j=0; j<min(count - currentPageStart, FILES_ON_PAGE_MAX); j++) {
-//				printf("\nSanity check BEFORE: %s, with date: %s", files[currentPageStart+j].path, files[currentPageStart+j].date);
-//				printf("\n   (button name)Sanity check BEFORE: %s", buttons[j].text);
-//			}
-			
 			i = buttonInputLoop(buttons,
 								min(count - currentPageStart, FILES_ON_PAGE_MAX) + (count > FILES_ON_PAGE_MAX ? 2 : 0),
 								x,
@@ -533,11 +526,6 @@ boolean dialogChooseFile(char *path, const char *suffix, const char *prompt) {
 								width,
 								height,
 								NULL);
-			
-//			for (j=0; j<min(count - currentPageStart, FILES_ON_PAGE_MAX); j++) {
-//				printf("\nSanity check AFTER: %s, with date: %s", files[currentPageStart+j].path, files[currentPageStart+j].date);
-//				printf("\n   (button name)Sanity check AFTER: %s", buttons[j].text);
-//			}
 			
 			overlayDisplayBuffer(rbuf, NULL);
 			
@@ -717,6 +705,9 @@ void mainBrogueJunction() {
 					rogue.nextGameSeed = 0; // Seed based on clock.
 				}
 				
+        //TODO: put alert dialog here
+        dialogAlert("Todo: select class here");
+        
 				rogue.nextGame = NG_NOTHING;
 				initializeRogue(rogue.nextGameSeed);
 				startLevel(rogue.depthLevel, 1); // descending into level 1
