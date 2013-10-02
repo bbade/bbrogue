@@ -25,6 +25,7 @@
 #include "IncludeGlobals.h"
 #include <math.h>
 #include <time.h>
+#include "BBMod.h"
 
 void rogueMain() {
 	previousGameSeed = 0;
@@ -436,9 +437,7 @@ void initializeRogue(unsigned long seed) {
 	equipItem(theItem, false);
     player.status[STATUS_DONNING] = 0;
   
-  theItem = generateItem(SCROLL, SCROLL_IDENTIFY);
-  identify(theItem);
-  theItem = addItemToPack(theItem);
+  setupSelectedClass();
 
 	DEBUG {
 		theItem = generateItem(RING, RING_CLAIRVOYANCE);

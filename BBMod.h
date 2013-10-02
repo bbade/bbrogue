@@ -21,14 +21,34 @@ enum CharacterClassType {
   CLS_ENCHANTER, // S/W 2 scroll of enchantment
   CLS_MINER,    //SW Scroll of Shattering, Staff of digging
   CLS_EXPLORER, // ring of light & extra ration
-  CLS_SKRIMISHER, //darts and javlins
-//  CLS_CLOWN ,
-//  CLS_WIZZRD, // -1 dagger, no armor, lots of magical items
-//  CLS_SCOUT,  // Ring of Awareness +1
-  CLS_RUNNER,   // no armor, no darts, +2 haste charm
   CLS_NONE, // play a standard game
   NUM_CLASSES
 };
+
+typedef void(*ClassInitFn)(item** classItems);
+
+
+typedef struct CharacterClass {
+  char* className;
+  char* classDescription;
+  // funciton pointer to the init function
+  ClassInitFn getItems;
+} CharacterClass;
+
+
+
+/**
+ * Adds items from the selected class to pack, does
+ * any other fanciness.
+ */
+void setupSelectedClass();
+
+//  CLS_CLOWN ,
+//  CLS_WIZZRD, // -1 dagger, no armor, lots of magical items
+//  CLS_SCOUT,  // Ring of Awareness +1
+//  CLS_RUNNER,   // no armor, no darts, +2 haste charm
+
+
 
 
 // prompts the user to select a class, then sets the info up, or something

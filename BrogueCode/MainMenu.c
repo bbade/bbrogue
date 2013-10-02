@@ -26,6 +26,7 @@
 #include <math.h>
 #include <time.h>
 #include <limits.h>
+#include "BBMod.h"
 
 #define MENU_FLAME_PRECISION_FACTOR		10
 #define MENU_FLAME_RISE_SPEED			50
@@ -706,7 +707,8 @@ void mainBrogueJunction() {
 				}
 				
         //TODO: put alert dialog here
-        dialogAlert("Todo: select class here");
+//        dialogAlert("Todo: select class here");
+        selectClass();
         
 				rogue.nextGame = NG_NOTHING;
 				initializeRogue(rogue.nextGameSeed);
