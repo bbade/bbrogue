@@ -422,20 +422,25 @@ void initializeRogue(unsigned long seed) {
 	theItem = addItemToPack(theItem);
 	equipItem(theItem, false);
 	
-	theItem = generateItem(WEAPON, DART);
-	theItem->enchant1 = theItem->enchant2 = 0;
-	theItem->quantity = 15;
-	theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	identify(theItem);
-	theItem = addItemToPack(theItem);
+  
+  if (selectedClassHasDarts()) {
+    theItem = generateItem(WEAPON, DART);
+    theItem->enchant1 = theItem->enchant2 = 0;
+    theItem->quantity = 15;
+    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+    identify(theItem);
+    theItem = addItemToPack(theItem);
+  }
 	
-	theItem = generateItem(ARMOR, LEATHER_ARMOR);
-	theItem->enchant1 = 0;
-	theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
-	identify(theItem);
-	theItem = addItemToPack(theItem);
-	equipItem(theItem, false);
-    player.status[STATUS_DONNING] = 0;
+	if (selectedClassHasArmor()) {
+    theItem = generateItem(ARMOR, LEATHER_ARMOR);
+    theItem->enchant1 = 0;
+    theItem->flags &= ~(ITEM_CURSED | ITEM_RUNIC);
+    identify(theItem);
+    theItem = addItemToPack(theItem);
+    equipItem(theItem, false);
+      player.status[STATUS_DONNING] = 0;
+  }
   
   setupSelectedClass();
 

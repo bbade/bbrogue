@@ -17,8 +17,12 @@ static CharacterClass selectedClass;
 static const int MAX_CLASS_ITEMS = 5;
 
 
-//code
+//public
 void setupSelectedClass() {
+  if (selectedClass.classId == CLS_NONE) {
+    return;
+  }
+  
   item *items[MAX_CLASS_ITEMS];
   memset(items, 0, MAX_CLASS_ITEMS * sizeof(item*));
   selectedClass.getItems(items);
@@ -31,9 +35,19 @@ void setupSelectedClass() {
   }
 }
 
+
+boolean selectedClassHasArmor() {
+  return selectedClass.classId != CLS_RUNNER ||
+    selectedClass.classId != CLS_ARCMAGE;
+}
+boolean selectedClassHasDarts() {
+  return selectedClass.classId != CLS_ARCMAGE;
+}
+
+// private
+
 void arcanist(item **items) {
   items[1] = generateItem(SCROLL, SCROLL_IDENTIFY);
-  items[2] = generateItem(SCROLL, SCROLL_NEGATION);
 }
 
 void theif(item **items) {
@@ -44,7 +58,7 @@ void theif(item **items) {
 void warrior(item **items) {
   items[0] = generateItem(WEAPON, SWORD);
   items[0] ->enchant1 = 0;
-  // maybe a potion of strenght?
+  // maybe a potion of strenght or a scroll of acid protection?
 }
 
 void healer(item **items) {
@@ -66,42 +80,46 @@ void enchanter(item **items) {
 void miner(item **items) {
   items[0] = generateItem(STAFF, STAFF_TUNNELING);
   items[0] ->enchant1 = 1;
-  items[1] = generateItem(POTION, POTION_DESCENT);
-}
-
-void explorer(item **items) {
-  items[0] = generateItem(FOOD, RATION);
   items[1] = generateItem(RING, RING_LIGHT);
-  items[1] ->enchant1 = 2;
+  items[1] ->enchant1 = 1;
 }
 
-void skrimisher(item **items) {
-  items[0] = generateItem(WEAPON, DART);
-  items[0] ->enchant1 = 1;
-  items[0] ->quantity = 5;
-  items[1] = generateItem(WEAPON, JAVELIN);
-  items[1]->quantity = 10;
+void runner(item **items) {
+  items[0] = generateItem(CHARM, CHARM_HASTE);
+  items[0] -> enchant1 = 3;
 }
 
 void noClass(item **items){
   //do nothing
 }
 
+void arcmage(item **items) {
+  items[0] = generateItem(STAFF, STAFF_FIRE);
+  items[0] ->enchant1 = 1;
+  items[1] = generateItem(STAFF, STAFF_LIGHTNING);
+  items[1] ->enchant1 = 1;
+  items[2] = generateItem(RING, RING_WISDOM);
+  items[2] -> enchant1 = 1;
+  
+  // Give player 3 darts so that they can still solve puzzles
+  items[3] = generateItem(WEAPON, DART);
+  items[3] -> quantity = 3;
+}
+
+
 // The second field will be prefixed by "Starts with "
 const CharacterClass CLASSES [] = {
-  {"Arcanist",   "Scroll of Identify and Scroll of Remove Curse", .getItems = arcanist},
-  {"Thief",      "Ring of stealth", .getItems = theif},
-  {"Warrior",    "A trusty sword", .getItems = warrior},
-  {"Healer",     "A healing charm", .getItems = healer},
-  {"Pyro",       "Incindiary darts and potion of fire", .getItems = pyro},
-  {"Enchanter",  "Two scrolls of enchantment", .getItems = enchanter},
-  {"Miner",      "A staff of digging and a potion of descent", .getItems = miner},
-  {"Explorer",   "Extra food and a ring of light", .getItems = explorer},
-  {"Skrimisher", "Five +1 Darts, 10 Javlins", .getItems = skrimisher},
-  {"No Class",   "Play a standard game", .getItems = noClass}
-};
-
-
+  {CLS_NONE,      "No Class",   "Play a standard game", .getItems = noClass},
+  {CLS_ARCANIST,  "Arcanist",   "Scroll of Identify", .getItems = arcanist},
+  {CLS_THEIF,     "Thief",      "Ring of stealth", .getItems = theif},
+  {CLS_WARRIOR,   "Warrior",    "A trusty sword", .getItems = warrior}, // maybe make it acid proof?
+  {CLS_HEALER,    "Healer",     "A healing charm", .getItems = healer},
+  {CLS_PYRO,      "Pyro",       "Incindiary darts and potion of fire", .getItems = pyro},
+  {CLS_ENCHANTER, "Enchanter",  "Two scrolls of enchantment", .getItems = enchanter},
+  {CLS_MINER,     "Miner",      "A staff of digging and a a ring of light", .getItems = miner},
+  {CLS_RUNNER,    "Runner", "No armor. Haste charm and potion of descent", .getItems = runner},
+  {CLS_ARCMAGE,   "Arcmage", "No Armor, 3 Darts. Staffs of lightning and Fire", .getItems = arcmage},
+}; 
 
 
 void selectClass() {
@@ -112,7 +130,10 @@ void selectClass() {
   for (int i = 0; i < NUM_CLASSES; i++) {
     const CharacterClass *cClass = CLASSES + i;
     initializeButton(buttons + i);
-    strncpy(buttons[i].text, cClass->className, COLS);
+    buttons[i].text[0] = 'a' + i;
+    buttons[i].text[1] = ')';
+    buttons[i].text[2] = ' ';
+    strncpy(buttons[i].text+3, cClass->className, COLS-3);
     buttons[i].hotkey[0] = 'a' + i;
     buttons[i].hotkey[1] = 'A' + i;
     buttons[i].x = 2;
@@ -147,7 +168,7 @@ int printMultipleChoiceBox(char* title, brogueButton* buttons, int nButtons) {
   }
   
   color *dialogColor = &interfaceBoxColor;
-  cellDisplayBuffer dbuf[COLS][ROWS], rbuf[COLS][ROWS];
+  cellDisplayBuffer dbuf[COLS][ROWS];//, rbuf[COLS][ROWS];
   clearDisplayBuffer(dbuf);
   printString(title, winX + hPadding, titleRow,  &itemMessageColor, dialogColor, dbuf);
   rectangularShading(winX, winY, width + 1, height + 1, dialogColor, INTERFACE_OPACITY, dbuf);
